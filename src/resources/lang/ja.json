@@ -1,0 +1,22 @@
+{
+    "Whoops! Something went wrong.":"エラーです。",
+
+    "auth.failed":"登録内容が一致しません。",
+
+    "throttle": "ログインの試行回数が多すぎます。:seconds 秒後にお試しください。",
+
+    "password": "パスワードが正しくありません。",
+
+    "LOGIN":"ログイン",
+
+    "Password":"パスワード",
+
+    "Email":"メールアドレス",
+
+    "REGISTER":"会員登録",
+
+    "Name":"名前",
+
+    "Confirm Password":"確認用パスワード"
+
+}
