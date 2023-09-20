@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'carbon' => [
+    'timezone' => 'Asia/Tokyo', // デフォルトのタイムゾーンを設定
+    ],
+
+
 ];

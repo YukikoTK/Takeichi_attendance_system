@@ -33,5 +33,9 @@ class Attendance extends Model
         return $this->belongsTo(User::class);
      }
 
+    // breaksテーブルとのリレーションを構築
+     public function breaks(){
+        return $this->hasMany(Breaktime::class);
+    }
 
 }
