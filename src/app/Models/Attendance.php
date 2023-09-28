@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Attendance extends Model
 {
@@ -38,4 +39,12 @@ class Attendance extends Model
         return $this->hasMany(Breaktime::class);
     }
 
+    // 日付のグループ化
+    public function getDate()
+    {
+        return DB::table('attendances')
+              ->selectRaw('DATE_FORMAT(date, "%Y%m%d") AS dateGroup')
+              ->groupBy('dateGroup')
+              ->get();
+    }
 }

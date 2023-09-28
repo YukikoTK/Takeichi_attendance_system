@@ -44,15 +44,23 @@ class BreaktimeController extends Controller
 
 
         if ($workStartDate == $date) {
-            Breaktime::where('id', $userBreakLatest->id)
-            // Breaktime::where('attendance_id', $userAttendance->id)
-            ->update(['break_end' => $breakEndTime]);
+            if ($userBreakLatest){
+                $userBreakLatest->update(['break_end' => $breakEndTime]);
+            }
+            $breaktimes = Breaktime::where('attendance_id', $userAttendance->id)->get();
+            $totalBreakTime_formatted = $this->breakTotal($breaktimes);
+            $userAttendance -> update(['break_total' => $totalBreakTime_formatted]);
             
-            
+        return redirect()->route('worktime_index');
+
         } else {
-            Breaktime::where('id', $userBreakLatest->id)
-            // Breaktime::where('attendance_id', $userAttendance->id)
-            ->update(['break_end' => "23:59:59"]);
+            if ($userBreakLatest){
+                $userBreakLatest->update(['break_end' => "23:59:59"]);
+            }
+            $breaktimes = Breaktime::where('attendance_id', $userAttendance->id)->get();
+
+            $totalBreakTime_formatted = $this->breakTotal($breaktimes);
+            $userAttendance -> update(['break_total' => $totalBreakTime_formatted]);
             
             $newRecord = Breaktime::create([
                 'attendance_id' => $userAttendance->id,
@@ -60,31 +68,30 @@ class BreaktimeController extends Controller
                 'break_end' => now()->toTimeString()
             ]);
 
+            $totalBreakTime_updateId = $newRecord->break_end;
+            Attendance::update(['break_total' => $totalBreakTime_updateId]);
         }
-
-        $breaktimes = Breaktime::where('attendance_id', $userAttendance->id)->get();
-
-        $totalBreakTime = 0;
-
-        foreach ($breaktimes as $break) 
-        {
-        // $break はこのループ内で各 Breaktime レコードを表す
-        $breakStart = \Carbon\Carbon::parse($break->break_start);
-        $breakEnd = \Carbon\Carbon::parse($break->break_end);
-        $totalBreakTime += $breakEnd -> diffInSeconds($breakStart);
-        }
-
-        //秒を時分秒に変換
-        $hours = floor($totalBreakTime / 3600);
-        $minutes = floor(($totalBreakTime % 3600) / 60);
-        $seconds = $totalBreakTime % 60;
-        $totalBreakTime_formatted = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
-
-        $userAttendance -> update(['break_total' => $totalBreakTime_formatted]);
-        
-    
         return redirect()->route('worktime_index');
     }
 
+
+
+    public function breakTotal($breaktimes) {
+        $totalBreakTime = 0;
+
+            foreach ($breaktimes as $break)
+            {
+                $breakStart = \Carbon\Carbon::parse($break->break_start);
+                $breakEnd = \Carbon\Carbon::parse($break->break_end);
+                $totalBreakTime += $breakEnd -> diffInSeconds($breakStart);
+            }
+
+                $hours = floor($totalBreakTime / 3600);
+                $minutes = floor(($totalBreakTime % 3600) / 60);
+                $seconds = $totalBreakTime % 60;
+                return sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
+
+    }
 }
+
 

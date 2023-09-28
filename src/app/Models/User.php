@@ -43,6 +43,8 @@ class User extends Authenticatable
     ];
 
     public function attendances(){
-        return $this->hasMany('App\Models\Attendance');
+        return $this->hasMany(Attendance::class);
     }
+
+
 }

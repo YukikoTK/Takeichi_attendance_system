@@ -6,7 +6,7 @@
     <title>Atte</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/attendance.css') }}" />
-</head>
+    </head>
 
 <body>
     <header class="header">
@@ -29,8 +29,9 @@
 
     <main>
         <div class="main_content">
+            @foreach($results as $result)
             <h2 class="title">
-                2021-11-01
+                {{ date('Y/m/d', strtotime($result->dateGroup)) }}
             </h2>
             <table class="table_inner">
                 <tr>
@@ -40,51 +41,22 @@
                     <th>休憩時間</th>
                     <th>勤務時間</th>
                 </tr>
+                @foreach($works as $work)
                 <tr>
-                    <td>テスト太郎</td>
-                    <td>10:00:00</td>
-                    <td>20:00:00</td>
-                    <td>00:30:00</td>
-                    <td>09:30:00</td>
+                    <td>{{ $work->user->name }}</td>
+                    <td>{{ $work->work_start }}</td>
+                    <td>{{ $work->work_end }}</td>
+                    <td>{{ $work->break_total }}</td>
+                    <td>{{ $work->work_total }}</td>
                 </tr>
-                <tr>
-                    <td>テスト次郎</td>
-                    <td>10:00:00</td>
-                    <td>20:00:00</td>
-                    <td>00:30:00</td>
-                    <td>09:30:00</td>
-                </tr>
-                <tr>
-                    <td>テスト三郎</td>
-                    <td>10:00:00</td>
-                    <td>20:00:00</td>
-                    <td>00:30:00</td>
-                    <td>09:30:00</td>
-                </tr>
-                <tr>
-                    <td>テスト四郎</td>
-                    <td>10:00:00</td>
-                    <td>20:00:00</td>
-                    <td>00:30:00</td>
-                    <td>09:30:00</td>
-                </tr>
-                <tr>
-                    <td>テスト五郎</td>
-                    <td>10:00:00</td>
-                    <td>20:00:00</td>
-                    <td>00:30:00</td>
-                    <td>09:30:00</td>
-                </tr>
+                @endforeach
             </table>
+            @endforeach
+            {{ $works->links() }}
         </div>
-
     </main>
     <footer>
         <p class="footer_title">Atte,&nbsp;inc.</p>
     </footer>
-
-
 </body>
-
 </html>
-
