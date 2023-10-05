@@ -40,11 +40,11 @@ class Attendance extends Model
     }
 
     // 日付のグループ化
-    public function getDate()
-    {
-        return DB::table('attendances')
-              ->selectRaw('DATE_FORMAT(date, "%Y%m%d") AS dateGroup')
-              ->groupBy('dateGroup')
-              ->get();
-    }
+    // public function getDate()
+    // {
+    //     return DB::table('attendances')
+    //           ->selectRaw('DATE_FORMAT(date, "%Y%m%d") AS dateGroup')
+    //           ->groupBy('dateGroup')
+    //           ->get();
+    // }
 }

@@ -28,7 +28,7 @@ ul {
     display: flex;
 }
 
-li {
+.header_list {
     margin: 0 0 0 30px;
     font-size: 15px;
 }
@@ -59,6 +59,24 @@ li {
     margin-bottom: 30px;
 }
 
+.date_link {
+    background-color: #fff;
+    border: solid 0.5px rgb(37 99 235);
+    color: rgb(37 99 235);
+    font-weight: lighter;
+    padding: 1px 10px;
+}
+
+.data_link-pre {
+    display: inline-block;
+    margin-right: 50px;
+}
+
+.data_link-next {
+    display: inline-block;
+    margin-left: 50px;
+}
+
 .table_inner {
     margin: auto;
 }
@@ -71,10 +89,26 @@ th, td {
 /* footer */
 .footer_title {
     text-align: center;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 /* ページネーション */
 .pagination {
     justify-content: center;
+    margin-top: 25px;
 }
 
+.page-item {
+    background-color: #fff;
+    text-align: center;
+    padding: 10px 15px;
+    border-left: solid 0.5px #DCDCDC;
+    border-bottom: solid 0.3px #DCDCDC;
+    border-top: solid 0.3px #DCDCDC;
+    color: rgb(37 99 235);
+}
+
+.page-item:nth-last-child(1) {
+    border-right: solid 0.5px #DCDCDC;
+}

@@ -6,7 +6,7 @@
     <title>Atte</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/attendance.css') }}" />
-    </head>
+</head>
 
 <body>
     <header class="header">
@@ -15,9 +15,9 @@
         </h1>
         <nav class="nav_contents">
             <ul>
-                <li><a href="/">ホーム</a></li>
-                <li><a href="/attendance">日付一覧</a></li>
-                <li>
+                <li class="header_list"><a href="/">ホーム</a></li>
+                <li class="header_list"><a href="/attendance">日付一覧</a></li>
+                <li class="header_list">
                     <form action="{{ route('logout')}}"  method="POST">
                         @csrf
                         <button class="btn_logout">ログアウト</button>
@@ -29,9 +29,10 @@
 
     <main>
         <div class="main_content">
-            @foreach($results as $result)
             <h2 class="title">
-                {{ date('Y/m/d', strtotime($result->dateGroup)) }}
+                <a class="date_link data_link-pre" href="{{ route('attendance_show', $previousDate->format('Y-m-d')) }}"><</a>
+                {{ $date->format('Y-m-d') }}
+                <a class="date_link data_link-next" href="{{ route('attendance_show', $nextDate->format('Y-m-d')) }}">></a>
             </h2>
             <table class="table_inner">
                 <tr>
@@ -41,18 +42,17 @@
                     <th>休憩時間</th>
                     <th>勤務時間</th>
                 </tr>
-                @foreach($works as $work)
+                @foreach($records as $record)
                 <tr>
-                    <td>{{ $work->user->name }}</td>
-                    <td>{{ $work->work_start }}</td>
-                    <td>{{ $work->work_end }}</td>
-                    <td>{{ $work->break_total }}</td>
-                    <td>{{ $work->work_total }}</td>
+                    <td>{{ $record->user->name }}</td>
+                    <td>{{ $record->work_start }}</td>
+                    <td>{{ $record->work_end }}</td>
+                    <td>{{ $record->break_total }}</td>
+                    <td>{{ $record->work_total }}</td>
                 </tr>
                 @endforeach
             </table>
-            @endforeach
-            {{ $works->links() }}
+            {{ $records->links() }}
         </div>
     </main>
     <footer>

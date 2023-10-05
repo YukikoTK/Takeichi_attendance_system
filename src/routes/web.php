@@ -32,4 +32,5 @@ Route::patch('/worktime/end', [WorktimeController::class, 'update'])->name('work
 Route::post('/breaktime/start', [BreaktimeController::class, 'store'])->name('breaktime_start');
 Route::patch('/breaktime/end', [BreaktimeController::class, 'update'])->name('breaktime_end');
 
-Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance_index');
+Route::get('/attendance/{date?}', [AttendanceController::class, 'show'])->name('attendance_show');
+

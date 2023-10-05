@@ -9,17 +9,20 @@ use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
-    public function index()
-    {
-        $works = Attendance::with('user')->paginate(5);
-        $this->attendances = new Attendance();
-        $results = $this->attendances->getDate();
-        return view('attendance', [
-            "works" => $works,
-            "results" => $results
-        ]);
+    public function show($date = null) {
+        if ($date) {
+            // パラメータが存在する場合、指定された日付のデータを取得
+            $date = Carbon::parse($date);
+            $records = Attendance::whereDate('date', $date)->paginate(5);
+        } else {
+            // パラメータが存在しない場合、ログイン日のデータを取得
+            $date = Carbon::today();
+            $records = Attendance::whereDate('date', $date)->paginate(5);
+        }
+        
+        $previousDate = $date->copy()->subDay();
+        $nextDate = $date->copy()->addDay();
 
-
+        return view('attendance', compact('records', 'date', 'previousDate', 'nextDate'));
     }
-    
 }

@@ -23,11 +23,11 @@ class WorktimeController extends Controller
         $date = now()->toDateString();
         $workStartTime = now()->toTimeString();
 
-            Attendance::create([
-                'user_id' => $userId,
-                'date' => $date,
-                'work_start' => $workStartTime,
-            ]);
+        Attendance::create([
+            'user_id' => $userId,
+            'date' => $date,
+            'work_start' => $workStartTime,
+        ]);
 
         return redirect()->route('worktime_index');
     }
@@ -37,7 +37,8 @@ class WorktimeController extends Controller
     public function update()
     {
         $userId = auth()->user()->id;
-        $latestRecord = Attendance::where('user_id', $userId)->latest()->first();
+        $latestRecord = Attendance::where('user_id', $userId)
+                                    ->latest()->first();
         $workStartDate = $latestRecord->date;
         $date = now()->toDateString();
 
@@ -52,16 +53,16 @@ class WorktimeController extends Controller
 
         } else {
             Attendance::where('user_id', $userId)
-                    ->where('date', $workStartDate)
-                    ->update(['work_end' => "23:59:59"]);
+                        ->where('date', $workStartDate)
+                        ->update(['work_end' => "23:59:59"]);
 
             $workStartRecord = $latestRecord->work_start;
             $workEndRecord = "23:59:59";
             $workTotal = $this->workTotal($workStartRecord, $workEndRecord);
 
             Attendance::where('user_id', $userId)
-                    ->where('date', $workStartDate)
-                    ->update(['work_total' => $workTotal]);
+                        ->where('date', $workStartDate)
+                        ->update(['work_total' => $workTotal]);
             $newAttendance = Attendance::create([
                 'user_id' => $userId,
                 'date' => $date,
@@ -70,21 +71,46 @@ class WorktimeController extends Controller
                 'work_total' => now()->toTimeString()
             ]);
 
-            // $newAttendance->save();
-            // $newAttendanceId = $newAttendance->id;
-            // $lastAttendance = Attendance::latest()->first();
-            // $lastAttendanceId = $lastAttendance->id;
+            $newAttendanceId = $newAttendance->id;
+            $preAttendance = Attendance::where('user_id', $userId)->first();
 
-            // Breaktime::where('attendance_id', $lastAttendanceId)
-            // ->update(['attendance_id' => $newAttendanceId]);
-           }
+            if ($preAttendance) {
+                $preAttendanceId = $preAttendance->id;
+                $breakLatestRecord = Breaktime::where('attendance_id', $preAttendanceId)
+                                                ->latest()->first();
 
+                if ($breakLatestRecord) {
+                    $breakCreatedAt = (new Carbon($breakLatestRecord->created_at))->toDateString();
+                    $newAttendanceDate = $newAttendance->date;
 
+                    if ($breakCreatedAt == $newAttendanceDate) {
+                    $latestBreaktimeRecord = Breaktime::where('attendance_id', $preAttendanceId)
+                                                        ->latest()->first();
+
+                        if ($latestBreaktimeRecord) {
+                            $latestBreaktimeRecord->update(['attendance_id' => $newAttendanceId]);
+                            $updateBreakTimes = Breaktime::where('attendance_id', $newAttendanceId)->get();
+                            $breakNextDay = 0;
+
+                            foreach ($updateBreakTimes as $updateBreakTime) {
+                                $breakStart = \Carbon\Carbon::parse($updateBreakTime->break_start);
+                                $breakEnd = \Carbon\Carbon::parse($updateBreakTime->break_end);
+                                $breakNextDay += $breakEnd -> diffInSeconds($breakStart);
+                            }
+
+                            $hours = floor($breakNextDay / 3600);
+                            $minutes = floor(($breakNextDay % 3600) / 60);
+                            $seconds = $breakNextDay % 60;
+                            $breakNextDayTotal = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
+                            $newAttendance->update(['break_total' => $breakNextDayTotal]);
+                        }
+                    }
+                }
+            }
+
+        }
         return redirect()->route('worktime_index');
-        
     }
-        
-
 
     public function workTotal($workStartRecord, $workEndRecord) {
             $workStartCalc = new Carbon($workStartRecord);
