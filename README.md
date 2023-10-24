@@ -2,7 +2,9 @@
 Atte
 
 ## 概要説明（どんなアプリか）
-ユーザーの勤務時間や休憩時間を管理できる勤怠管理システム
+ユーザーの勤務時間や休憩時間を管理する勤怠管理システム
+
+![トップ画像](./トップ画像.png)
 
 ## 作成した目的
 ユーザーの勤怠を管理するため
@@ -20,26 +22,43 @@ Atte
 - [MailHog](http://localhost:8025/)
 
 ## テーブル設計
+![テーブル設計](./テーブル設計.png)
 
 ## ER図
+![ER図](./ER図.png)
 
 ## 環境構築
 ダミーデータを9件登録しております。下記手順にてご確認願います。
+
 1, 開発環境を[Github]()よりクローン
+
 2, ダミーデータ作成のために下記のコマンドを実行
-php artisan migrate:fresh --seed
+
+ php artisan migrate:fresh --seed
+
 3, localhost/loginにアクセスし、下記のデータを使用してログイン
-メールアドレス : taro@test.com
-パスワード : password
+
+ メールアドレス : taro@test.com
+
+ パスワード : password
 
 ## その他
 認証メール送信のために、MailHogを使用しています。
+
 必要でしたら、.envファイルを下記の通り書き換えてください。
+
 MAIL_MAILER=smtp
+
 MAIL_HOST=mailhog
+
 MAIL_PORT=1025
+
 MAIL_USERNAME=null
+
 MAIL_PASSWORD=null
+
 MAIL_ENCRYPTION=null
+
 MAIL_FROM_ADDRESS=null
+
 MAIL_FROM_ADDRESS=test@test.com
