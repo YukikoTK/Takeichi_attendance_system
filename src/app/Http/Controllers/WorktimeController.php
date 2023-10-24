@@ -16,7 +16,6 @@ class WorktimeController extends Controller
         return view('index', ['username' => $user->name]);
     }
 
-
     public function store()
     {
         $userId = Auth::id();
@@ -32,8 +31,6 @@ class WorktimeController extends Controller
         return redirect()->route('worktime_index');
     }
 
-    
-    
     public function update()
     {
         $userId = auth()->user()->id;
@@ -107,19 +104,19 @@ class WorktimeController extends Controller
                     }
                 }
             }
-
         }
         return redirect()->route('worktime_index');
     }
 
-    public function workTotal($workStartRecord, $workEndRecord) {
-            $workStartCalc = new Carbon($workStartRecord);
-            $workEndCalc = new Carbon($workEndRecord);
-            $diffInSeconds = $workStartCalc->diffInSeconds($workEndCalc);
-            $hours = floor($diffInSeconds / 3600);
-            $minutes = floor(($diffInSeconds % 3600) / 60);
-            $seconds = $diffInSeconds % 60;
-            return sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
+    public function workTotal($workStartRecord, $workEndRecord) 
+    {
+        $workStartCalc = new Carbon($workStartRecord);
+        $workEndCalc = new Carbon($workEndRecord);
+        $diffInSeconds = $workStartCalc->diffInSeconds($workEndCalc);
+        $hours = floor($diffInSeconds / 3600);
+        $minutes = floor(($diffInSeconds % 3600) / 60);
+        $seconds = $diffInSeconds % 60;
+        return sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
     }
 
 }

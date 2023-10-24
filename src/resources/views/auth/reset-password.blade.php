@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <x-slot name="header">
+        <p class="font-semibold text-xl text-gray-800 leading-tight">
+            Atte
+        </p>
+    </x-slot>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
@@ -45,4 +50,9 @@
             </div>
         </form>
     </x-auth-card>
+    <x-slot name="footer">
+        <p class="text-xs text-gray-800 leading-tight">
+            Atte,&nbsp;inc.
+        </p>
+    </x-slot>
 </x-guest-layout>

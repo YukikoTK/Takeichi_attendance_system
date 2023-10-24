@@ -18,15 +18,11 @@ class Attendance extends Model
         'work_total',
         'break_total',
     ];
-    
-    // protected $guarded = array(id);
-
 
     // 打刻ページにログイン名を表示
     public function getTitle(){
         return 'name'.$this->name;
     }
-
 
     // usersテーブルとのリレーションを構築
      public function user()
@@ -38,13 +34,4 @@ class Attendance extends Model
      public function breaks(){
         return $this->hasMany(Breaktime::class);
     }
-
-    // 日付のグループ化
-    // public function getDate()
-    // {
-    //     return DB::table('attendances')
-    //           ->selectRaw('DATE_FORMAT(date, "%Y%m%d") AS dateGroup')
-    //           ->groupBy('dateGroup')
-    //           ->get();
-    // }
 }
