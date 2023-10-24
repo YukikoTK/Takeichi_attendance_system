@@ -30,7 +30,9 @@ Atte
 ## 環境構築
 ダミーデータを9件登録しております。下記手順にてご確認願います。
 
-1, 開発環境を[Github]()よりクローン
+1, 開発環境を以下よりクローン
+
+git@github.com:YukikoTK/Takeichi_attendance_system.git
 
 2, MailHog（認証メールを送信）を使用するために、.envファイルを下記の通り修正
 
