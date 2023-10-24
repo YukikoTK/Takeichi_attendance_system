@@ -32,20 +32,7 @@ Atte
 
 1, 開発環境を[Github]()よりクローン
 
-2, ダミーデータ作成のために下記のコマンドを実行
-
- php artisan migrate:fresh --seed
-
-3, localhost/loginにアクセスし、下記のデータを使用してログイン
-
- メールアドレス : taro@test.com
-
- パスワード : password
-
-## その他
-認証メール送信のために、MailHogを使用しています。
-
-必要でしたら、.envファイルを下記の通り書き換えてください。
+2, MailHog（認証メールを送信）を使用するために、.envファイルを下記の通り修正
 
 MAIL_MAILER=smtp
 
@@ -62,3 +49,13 @@ MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=null
 
 MAIL_FROM_ADDRESS=test@test.com
+
+3, ダミーデータ作成のために下記のコマンドを実行
+
+ php artisan migrate:fresh --seed
+
+4, localhost/loginにアクセスし、下記のデータを使用してログイン
+
+ メールアドレス : taro@test.com
+
+ パスワード : password
