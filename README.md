@@ -31,14 +31,14 @@
 ## 環境構築
 ダミーデータを9件登録しております。下記手順にてご確認願います。
 
-1. 開発環境を以下よりクローン
+1. 開発環境を以下よりクローン  
 git@github.com:YukikoTK/Takeichi_attendance_system.git
 
-2. Docker の設定(開発環境構築)
+3. Docker の設定(開発環境構築)
 
        $ docker-compose up -d --build
 
-3. Laravelのパッケージをインストール
+4. Laravelのパッケージをインストール
 
  - PHPコンテナにログイン
 
